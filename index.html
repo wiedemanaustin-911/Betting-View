@@ -143,7 +143,7 @@
  * CONFIG — IMPORTANT
  * Set this to your deployed API URL (Render/Railway/etc.)
  ********************/
-const API_BASE = https://bet-buzz-api.onrender.com; // <- replace with your API base. Example: https://bet-buzz-api.onrender.com
+const API_BASE = 'https://bet-buzz-api.onrender.com'; // <- replace with your API base. Example: https://bet-buzz-api.onrender.com
 
 /********************
  * UTILITIES
@@ -420,21 +420,37 @@ async function loadLiveForCurrentGame(){
   renderAll();
 }
 
+<script>
+// REPLACE your existing initLive() with this version:
 async function initLive(){
+  // 1) Always show mocks immediately so the UI is usable
+  if (!state.gameId) state.gameId = (MOCK_GAMES[0]?.id);
+  renderGameOptions();
+  renderAll();
+
+  // 2) If no API configured, stop here (mock mode)
+  if (!API_BASE || API_BASE.includes('YOUR-RENDER-URL')) {
+    document.getElementById('modeTag').textContent = 'Mock';
+    return;
+  }
+
+  // 3) Try to load real games and odds; silently fall back to mocks on any error
   try{
     REMOTE_GAMES = await fetchGames();
-    // set default game id if not set
-    state.gameId = (REMOTE_GAMES[0]?.id) || (MOCK_GAMES[0].id);
-    renderGameOptions();
-    await loadLiveForCurrentGame();
+    if (REMOTE_GAMES && REMOTE_GAMES.length) {
+      state.gameId = REMOTE_GAMES[0].id;
+      renderGameOptions();
+      await loadLiveForCurrentGame();
+      document.getElementById('modeTag').textContent = 'Live';
+    } else {
+      document.getElementById('modeTag').textContent = 'Mock';
+    }
   } catch(e){
-    console.warn('Falling back to mocks', e);
-    REMOTE_GAMES = [];
-    state.gameId = MOCK_GAMES[0].id;
-    renderGameOptions();
-    renderAll();
+    console.warn('Live load failed; using mocks.', e);
+    document.getElementById('modeTag').textContent = 'Mock';
   }
 }
+</script>
 
 /********************
  * EVENTS
@@ -475,3 +491,4 @@ function wire(){
 </script>
 </body>
 </html>
+
