@@ -11,43 +11,39 @@
       --text: #e8eefc;
       --muted: #a8b3cf;
       --accent: #7cc4ff;
-      --ok: #8de38d;
-      --warn: #ffd280;
-      --err: #ff9aa2;
       --border: #233058;
-      --elev: 0 10px 30px rgba(0,0,0,0.2);
-      --gap: 12px;
+      --elev: 0 10px 30px rgba(0,0,0,.2);
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.4 system-ui, -apple-system, Segoe UI, Roboto }
-    header { padding: 20px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border) }
-    h1 { margin: 0; font-size: 20px; letter-spacing: .2px }
-    .tag { background: #1a2447; color: var(--muted); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border) }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 340px 1fr; gap: 18px }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--elev) }
-    .pad { padding: 16px }
-    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
-    select,button,input { background: #0f1730; border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px }
-    button { cursor: pointer }
-    .kpi { padding: 12px; border: 1px dashed var(--border); border-radius: 12px; background: #0e162c }
-    .kpi .label { font-size: 12px; color: var(--muted) }
-    .kpi .val { font-size: 18px; font-weight: 700; margin-top: 4px }
-    .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px }
-    .pill { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: #0f1730; display: inline-block }
-    .good{ background: rgba(141,227,141,.12); border-color: #234a23 }
-    .bad{ background: rgba(255,154,162,.12); border-color: #4a2323 }
-    .neutral{ background: rgba(124,196,255,.12); border-color: #234a4a }
-    .oddsRow{ display: grid; grid-template-columns: 140px repeat(3,1fr); gap: 10px; align-items: center; border-top: 1px solid var(--border); padding: 10px 0 }
-    .oddsRow:first-child{ border-top: 0 }
-    .muted{ color: var(--muted) }
-    .big{ font-size: 28px; font-weight: 700 }
-    .list{ display: flex; flex-direction: column; gap: 12px; margin-top: 8px }
-    .quote{ padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: #0f1730 }
-    .src{ font-size: 12px; color: var(--muted) }
-    .badge{ font-size: 12px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border); background: #0f1730; color: var(--muted) }
-    .foot{ padding: 14px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center }
-    a{ color: var(--accent); text-decoration: none }
-    @media(max-width:980px){ .wrap { grid-template-columns: 1fr } }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto}
+    header{padding:20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+    h1{margin:0;font-size:20px;letter-spacing:.2px}
+    .tag{background:#1a2447;color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid var(--border)}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px;display:grid;grid-template-columns:340px 1fr;gap:18px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--elev)}
+    .pad{padding:16px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    select,button{background:#0f1730;border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:10px;cursor:pointer}
+    .kpi{padding:12px;border:1px dashed var(--border);border-radius:12px;background:#0e162c}
+    .kpi .label{font-size:12px;color:var(--muted)}
+    .kpi .val{font-size:18px;font-weight:700;margin-top:4px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#0f1730;display:inline-block}
+    .good{background:rgba(141,227,141,.12);border-color:#234a23}
+    .bad{background:rgba(255,154,162,.12);border-color:#4a2323}
+    .neutral{background:rgba(124,196,255,.12);border-color:#234a4a}
+    .oddsRow{display:grid;grid-template-columns:140px repeat(3,1fr);gap:10px;align-items:center;border-top:1px solid var(--border);padding:10px 0}
+    .oddsRow:first-child{border-top:0}
+    .muted{color:var(--muted)}
+    .big{font-size:28px;font-weight:700}
+    .list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+    .quote{padding:12px;border:1px solid var(--border);border-radius:12px;background:#0f1730}
+    .src{font-size:12px;color:var(--muted)}
+    .badge{font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:#0f1730;color:var(--muted)}
+    .foot{padding:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    a{color:var(--accent);text-decoration:none}
+    @media(max-width:980px){.wrap{grid-template-columns:1fr}}
+    .tab.active{outline:2px solid #365ca0}
   </style>
 </head>
 <body>
@@ -68,7 +64,7 @@
       <div>
         <div class="muted" style="font-size:12px">Market</div>
         <div class="row">
-          <button class="tab" data-market="spread">Spread</button>
+          <button class="tab active" data-market="spread">Spread</button>
           <button class="tab" data-market="moneyline">Moneyline</button>
           <button class="tab" data-market="total">Total</button>
         </div>
@@ -139,63 +135,36 @@
 </div>
 
 <script>
-/********************
- * CONFIG — IMPORTANT
- * Set this to your deployed API URL (Render/Railway/etc.)
- ********************/
-const API_BASE = 'https://bet-buzz-api.onrender.com'; // <- replace with your API base. Example: https://bet-buzz-api.onrender.com
+/* ================= CONFIG ================= */
+const API_BASE = 'https://bet-buzz-api.onrender.com'; // your Render API
 
-/********************
- * UTILITIES
- ********************/
-const $ = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
-
-function moneylineToImplied(ml){
-  if(ml===0) return 0.5;
-  if(ml>0) return 100/(ml+100);
-  return -ml/(-ml+100);
-}
-function formatPct(x){ return (x*100).toFixed(1) + '%'; }
+/* ================= UTILS ================= */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+function moneylineToImplied(ml){ if(ml===0) return 0.5; return ml>0 ? 100/(ml+100) : -ml/(-ml+100); }
+function formatPct(x){ return (x*100).toFixed(1)+'%'; }
 function fmtPrice(p){ return p>0? '+'+p : String(p); }
-function averageSpreadNumber(lines){ return lines.length? lines.map(l=>+l.home).reduce((a,b)=>a+b,0)/lines.length : 0; }
-function simpleModelSpread(powerHome, powerAway){ return (powerHome - powerAway) + 1.5; }
-function quickEV(modelProb, impliedProb){ const ev = modelProb - impliedProb; return (ev>=0? '+':'') + (ev*100).toFixed(1) + ' pts'; }
-function signClass(v){ return v>0.05? 'good' : v<-0.05? 'bad' : 'neutral'; }
-
-// choose best ML for a side
+function averageSpreadNumber(lines){ return lines.length ? lines.map(l=>+l.home).reduce((a,b)=>a+b,0)/lines.length : 0; }
+function quickEV(modelProb, impliedProb){ const ev=modelProb-impliedProb; return (ev>=0?'+':'')+(ev*100).toFixed(1)+' pts'; }
+function signClass(v){ return v>0.05?'good':v<-0.05?'bad':'neutral'; }
 function bestLineML(lines, side){
-  if(!lines || !lines.length) return null;
+  if(!lines||!lines.length) return null;
   if(side==='home'){
-    // best price for fav = closest to 0 (least negative), if positive that's even better
-    return lines.reduce((best,l)=>{
-      if(!best) return l;
-      const v = l.home, cur = best.home;
-      const better = (v>0 && cur<0) || (v>cur && v<=0) || (v>cur && cur>0);
-      return better? l: best;
-    }, null);
+    return lines.reduce((best,l)=>!best?l:(((l.home>0 && best.home<0)||(l.home>best.home && l.home<=0)||(l.home>best.home && best.home>0))?l:best),null);
   } else {
-    // best dog = biggest plus
-    return lines.reduce((best,l)=>{
-      if(!best) return l;
-      return (l.away > best.away)? l: best;
-    }, null);
+    return lines.reduce((best,l)=>!best?l:(l.away>best.away?l:best),null);
   }
 }
 
-/********************
- * STATE
- ********************/
-let state = { market: 'spread', gameId: null, side: null };
-let REMOTE_GAMES = [];      // from /api/games
-let CURRENT_ODDS = null;    // from /api/odds (plus chatter)
+/* ================= STATE ================= */
+let state = { market:'spread', gameId:null, side:null };
+let REMOTE_GAMES = [];
+let CURRENT_ODDS = null;
 
-/********************
- * MOCKS (fallback only)
- ********************/
+/* ================= MOCKS (fallback only) ================= */
 const MOCK_GAMES = [
-  { id:'osu-tex', kick:'2025-08-30T16:00:00Z', home:'Ohio State', away:'Texas', home_rank:3, away_rank:1, venue:'Ohio Stadium', power:{home:92.5, away:91.0} },
-  { id:'clem-lsu', kick:'2025-08-30T23:30:00Z', home:'Clemson', away:'LSU', home_rank:4, away_rank:9, venue:'Memorial Stadium', power:{home:91.0, away:90.0} }
+  { id:'osu-tex', kickoff:'2025-08-30T16:00:00Z', home:'Ohio State', away:'Texas', home_rank:3, away_rank:1, venue:'Ohio Stadium' },
+  { id:'clem-lsu', kickoff:'2025-08-30T23:30:00Z', home:'Clemson', away:'LSU', home_rank:4, away_rank:9, venue:'Memorial Stadium' }
 ];
 const MOCK_ODDS = {
   'osu-tex': {
@@ -207,13 +176,11 @@ const MOCK_ODDS = {
   }
 };
 
-/********************
- * API CALLS
- ********************/
+/* ================= API CALLS ================= */
 async function fetchGames(){
   const r = await fetch(`${API_BASE}/api/games?year=2025&week=1`);
   if(!r.ok) throw new Error('games failed');
-  const { games } = await r.json();
+  const {games} = await r.json();
   return games;
 }
 async function fetchOddsFor(game){
@@ -231,50 +198,33 @@ async function fetchChatterFor(game){
   return r.json();
 }
 
-/********************
- * RENDER HELPERS
- ********************/
+/* ================= RENDER HELPERS ================= */
+function getList(){ return REMOTE_GAMES.length ? REMOTE_GAMES : MOCK_GAMES; }
+function getCurrentGame(){ return getList().find(x=>x.id===state.gameId) || getList()[0]; }
+
 function renderGameOptions(){
   const sel = $('#gameSelect');
-  const list = (REMOTE_GAMES.length? REMOTE_GAMES : MOCK_GAMES);
+  const list = getList();
   sel.innerHTML = list.map(g=>{
-    const tagH = g.home_rank? ` (#${g.home_rank})` : '';
-    const tagA = g.away_rank? ` (#${g.away_rank})` : '';
+    const tagH = g.home_rank? ` (#${g.home_rank})`:'';
+    const tagA = g.away_rank? ` (#${g.away_rank})`:'';
     return `<option value="${g.id}">${g.away}${tagA} @ ${g.home}${tagH}</option>`;
   }).join('');
-  if(state.gameId){ sel.value = state.gameId; }
+  if(!state.gameId && list[0]) state.gameId = list[0].id;
+  sel.value = state.gameId;
 }
-
-function renderTabs(){
-  $$('.tab').forEach(t=> t.classList.toggle('active', t.dataset.market===state.market));
-}
-
-function getCurrentGame(){
-  const list = (REMOTE_GAMES.length? REMOTE_GAMES : MOCK_GAMES);
-  return list.find(x=>x.id===state.gameId) || list[0];
-}
-
 function rowHeader(cols){ return `<div class="oddsRow muted">${cols.map(c=>`<div>${c}</div>`).join('')}</div>`; }
-function oddsRow(book,c1,c2,c3){
-  return `<div class="oddsRow"><div><b>${book}</b></div><div>${c1}</div><div>${c2}</div><div class="muted">${c3}</div></div>`;
-}
-
-function renderAll(){
-  renderTabs();
-  renderHeader();
-  renderOddsTable();
-  renderSnippets();
-}
+function oddsRow(book,c1,c2,c3){ return `<div class="oddsRow"><div><b>${book}</b></div><div>${c1}</div><div>${c2}</div><div class="muted">${c3}</div></div>`; }
 
 function renderHeader(){
   const g = getCurrentGame();
-  const odds = CURRENT_ODDS || MOCK_ODDS[g.id] || { spread:{lines:[]}, moneyline:{lines:[]}, total:{target:null,lines:[]}, public:{spread:{},ml:{},total:{}}, sentiment:{score:0,snippets:[]} };
+  const odds = CURRENT_ODDS || MOCK_ODDS[g.id] || {spread:{lines:[]},moneyline:{lines:[]},total:{target:null,lines:[]},public:{},sentiment:{score:0,snippets:[]}};
   const m = state.market;
   const side = state.side || (m==='total' ? 'over' : (odds[m]?.side || 'home'));
 
   const lineAvg = m==='spread' ? averageSpreadNumber(odds.spread.lines||[]).toFixed(1)
                 : m==='moneyline' ? '—'
-                : (odds.total.target!=null? Number(odds.total.target).toFixed(1) : '—');
+                : (odds.total.target!=null ? Number(odds.total.target).toFixed(1) : '—');
 
   $('#matchHeader').innerHTML = `
     <div class="row" style="justify-content:space-between">
@@ -290,21 +240,20 @@ function renderHeader(){
       </div>
     </div>`;
 
-  // Edge calc (basic)
+  // edge (simple)
   let edgeTxt='—', edgeNote='—';
   if(m==='moneyline' && (odds.moneyline?.lines?.length)){
     const best = bestLineML(odds.moneyline.lines, side);
     const price = side==='home' ? best.home : best.away;
-    // simple model prob using made-up power until you add real ratings
-    const pHome = 0.55; // neutral default; refine with ratings later
-    const modelProb = side==='home'? pHome : (1-pHome);
+    const modelProbHome = 0.55; // placeholder until you add a real model
+    const modelProb = side==='home' ? modelProbHome : (1-modelProbHome);
     const implied = moneylineToImplied(price);
     edgeTxt = quickEV(modelProb, implied);
     edgeNote = `Model win ${formatPct(modelProb)} vs implied ${formatPct(implied)} @ ${best.book} ${fmtPrice(price)}.`;
   } else if(m==='spread'){
     const avg = averageSpreadNumber(odds.spread.lines||[]);
-    edgeTxt = (avg>=0? '+':'') + avg.toFixed(1) + ' pts (market avg)';
-    edgeNote = `Compare to your model once added`;
+    edgeTxt = (avg>=0?'+':'')+avg.toFixed(1)+' pts (market avg)';
+    edgeNote = 'Compare to your model once added.';
   } else {
     const tgt = odds.total?.target;
     edgeTxt = (tgt!=null? tgt.toFixed(1) : '—');
@@ -313,13 +262,12 @@ function renderHeader(){
   $('#edgeText').textContent = edgeTxt;
   $('#edgeNote').textContent = edgeNote;
 
-  // public
+  // public (still mocked)
   const pub = odds.public || { spread:{tickets_home:50,handle_home:50}, ml:{tickets_home:50,handle_home:50}, total:{tickets_over:50,handle_over:50} };
-  $('#publicPct').textContent = (m==='spread')
-    ? `${pub.spread.tickets_home}% tix / ${pub.spread.handle_home}% $ on HOME`
-    : (m==='moneyline')
-      ? `${pub.ml.tickets_home}% tix / ${pub.ml.handle_home}% $ on HOME`
-      : `${pub.total.tickets_over}% tix / ${pub.total.handle_over}% $ on OVER`;
+  $('#publicPct').textContent =
+    m==='spread'    ? `${pub.spread.tickets_home}% tix / ${pub.spread.handle_home}% $ on HOME`
+  : m==='moneyline' ? `${pub.ml.tickets_home}% tix / ${pub.ml.handle_home}% $ on HOME`
+                    : `${pub.total.tickets_over}% tix / ${pub.total.handle_over}% $ on OVER`;
 
   // KPIs
   if(m==='moneyline' && odds.moneyline?.lines?.length){
@@ -329,33 +277,31 @@ function renderHeader(){
     $('#bestLineBook').textContent = `${best.book} • Best ${side.toUpperCase()} ML`;
     const imp = moneylineToImplied(price);
     $('#implied').textContent = formatPct(imp);
-    const pHome = 0.55; // placeholder model
-    const modelProb = side==='home'? pHome : (1-pHome);
+    const pHome = 0.55; const modelProb = side==='home'? pHome : (1-pHome);
     $('#quickEV').textContent = quickEV(modelProb, imp);
   } else if(m==='spread'){
     const avg = averageSpreadNumber(odds.spread.lines||[]);
-    $('#bestLine').textContent = (avg>=0? 'HOME ':'HOME ') + avg.toFixed(1);
+    $('#bestLine').textContent = (avg>=0?'HOME ':'HOME ') + avg.toFixed(1);
     $('#bestLineBook').textContent = 'Avg across books';
-    $('#implied').textContent = '—';
-    $('#quickEV').textContent = '—';
+    $('#implied').textContent = '—'; $('#quickEV').textContent = '—';
   } else {
     const tgt = odds.total?.target;
     $('#bestLine').textContent = (tgt!=null? tgt.toFixed(1):'—');
     $('#bestLineBook').textContent = 'Consensus total';
-    $('#implied').textContent = '—';
-    $('#quickEV').textContent = '—';
+    $('#implied').textContent = '—'; $('#quickEV').textContent = '—';
   }
 }
 
 function renderOddsTable(){
   const g = getCurrentGame();
-  const odds = CURRENT_ODDS || MOCK_ODDS[g.id] || { spread:{lines:[]}, moneyline:{lines:[]}, total:{lines:[]} };
+  const odds = CURRENT_ODDS || MOCK_ODDS[g.id] || {spread:{lines:[]},moneyline:{lines:[]},total:{lines:[]}};
   const m = state.market;
   const rows = [];
   if(m==='spread'){
     rows.push(rowHeader(['Book','Home','Away','Note']));
     (odds.spread.lines||[]).forEach(l=>{
-      rows.push(oddsRow(l.book, `${l.home>0? '+':''}${l.home} (${fmtPrice(l.price_home)})`, `${l.away>0? '+':''}${l.away} (${fmtPrice(l.price_away)})`, '—'));
+      rows.push(oddsRow(l.book, `${l.home>0?'+':''}${l.home} (${fmtPrice(l.price_home)})`,
+                               `${l.away>0?'+':''}${l.away} (${fmtPrice(l.price_away)})`, '—'));
     });
   } else if(m==='moneyline'){
     rows.push(rowHeader(['Book','Home ML','Away ML','Implied (sel)']));
@@ -367,7 +313,8 @@ function renderOddsTable(){
   } else {
     rows.push(rowHeader(['Book','Over','Under','Note']));
     (odds.total.lines||[]).forEach(l=>{
-      rows.push(oddsRow(l.book, `${l.over} (${fmtPrice(l.price_over)})`, `${l.under} (${fmtPrice(l.price_under)})`, '—'));
+      rows.push(oddsRow(l.book, `${l.over} (${fmtPrice(l.price_over)})`,
+                               `${l.under} (${fmtPrice(l.price_under)})`, '—'));
     });
   }
   $('#oddsTable').innerHTML = rows.join('');
@@ -376,22 +323,20 @@ function renderOddsTable(){
 function renderSnippets(){
   const g = getCurrentGame();
   const odds = CURRENT_ODDS || MOCK_ODDS[g.id] || { sentiment:{score:0,snippets:[]} };
-  const s = odds.sentiment || {score:0, snippets:[]};
-  $('#sentiment').innerHTML = `<span class="pill ${signClass(s.score)}">Score ${(s.score>=0?'+':'') + s.score.toFixed(2)}</span>`;
+  const s = odds.sentiment || {score:0,snippets:[]};
+  $('#sentiment').innerHTML = `<span class="pill ${signClass(s.score)}">Score ${(s.score>=0?'+':'') + (s.score||0).toFixed(2)}</span>`;
   $('#snippetCount').textContent = `${(s.snippets||[]).length} notes`;
-  const html = (s.snippets||[]).map(q=>
-    `<div class="quote"><div>${q.text}</div>
+  $('#snippets').innerHTML = (s.snippets||[]).map(q=>`
+    <div class="quote">
+      <div>${q.text}</div>
       <div class="row" style="margin-top:6px;justify-content:space-between">
-        <span class="src">${q.src || ''}</span>
+        <span class="src">${q.src||''}</span>
         <span class="badge ${signClass(q.score||0)}">${(q.score>=0?'+':'') + (q.score||0).toFixed(2)}</span>
       </div>
-    </div>`).join('');
-  $('#snippets').innerHTML = html || '<div class="muted">No recent chatter found.</div>';
+    </div>`).join('') || '<div class="muted">No recent chatter found.</div>';
 }
 
-/********************
- * LIVE LOADERS
- ********************/
+/* ================= LIVE LOADERS ================= */
 async function loadLiveForCurrentGame(){
   const g = getCurrentGame();
   try{
@@ -409,82 +354,64 @@ async function loadLiveForCurrentGame(){
       };
       $('#modeTag').textContent = 'Live';
     } else {
-      CURRENT_ODDS = null;
-      $('#modeTag').textContent = 'Mock';
+      CURRENT_ODDS = null; $('#modeTag').textContent = 'Mock';
     }
   } catch(e){
-    console.error(e);
-    CURRENT_ODDS = null;
-    $('#modeTag').textContent = 'Mock';
+    console.error(e); CURRENT_ODDS = null; $('#modeTag').textContent = 'Mock';
   }
   renderAll();
 }
 
-<script>
-// REPLACE your existing initLive() with this version:
 async function initLive(){
-  // 1) Always show mocks immediately so the UI is usable
-  if (!state.gameId) state.gameId = (MOCK_GAMES[0]?.id);
+  // show mocks immediately so UI is usable
+  if(!state.gameId) state.gameId = (MOCK_GAMES[0]?.id);
   renderGameOptions();
   renderAll();
 
-  // 2) If no API configured, stop here (mock mode)
-  if (!API_BASE || API_BASE.includes('YOUR-RENDER-URL')) {
-    document.getElementById('modeTag').textContent = 'Mock';
-    return;
-  }
-
-  // 3) Try to load real games and odds; silently fall back to mocks on any error
+  // try live; fall back silently
   try{
     REMOTE_GAMES = await fetchGames();
-    if (REMOTE_GAMES && REMOTE_GAMES.length) {
+    if(REMOTE_GAMES && REMOTE_GAMES.length){
       state.gameId = REMOTE_GAMES[0].id;
       renderGameOptions();
       await loadLiveForCurrentGame();
-      document.getElementById('modeTag').textContent = 'Live';
-    } else {
-      document.getElementById('modeTag').textContent = 'Mock';
+      $('#modeTag').textContent = 'Live';
+      return;
     }
-  } catch(e){
+  }catch(e){
     console.warn('Live load failed; using mocks.', e);
-    document.getElementById('modeTag').textContent = 'Mock';
   }
+  $('#modeTag').textContent = 'Mock';
 }
-</script>
 
-/********************
- * EVENTS
- ********************/
+/* ================= EVENTS ================= */
 function wire(){
   $('#gameSelect').addEventListener('change', async (e)=>{
     state.gameId = e.target.value;
     state.side = null;
     await loadLiveForCurrentGame();
   });
-  $$('.tab').forEach(btn=> btn.addEventListener('click', async ()=>{
-    state.market = btn.dataset.market;
-    state.side = null;
-    renderAll();
-  }));
+  $$('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      $$('.tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      state.market = btn.dataset.market;
+      state.side = null;
+      renderAll();
+    });
+  });
   $('#flipSide').addEventListener('click', ()=>{
-    if(state.market==='total') return; // not flipping O/U in this MVP
+    if(state.market==='total') return;
     const cur = state.side || 'home';
-    state.side = (cur==='home'? 'away':'home');
+    state.side = (cur==='home' ? 'away' : 'home');
     $('#sideLabel').textContent = state.side.toUpperCase();
-    renderHeader();
-    renderOddsTable();
+    renderHeader(); renderOddsTable();
   });
   $('#refresh').addEventListener('click', loadLiveForCurrentGame);
 }
 
-/********************
- * BOOT
- ********************/
+/* ================= BOOT ================= */
 (function boot(){
-  // default market tab
-  state.market = 'spread';
-  // highlight tab
-  $$('.tab').forEach(t=> t.classList.toggle('active', t.dataset.market===state.market));
   wire();
   initLive();
 })();
