@@ -199,6 +199,15 @@ async function fetchChatterFor(game){
 }
 
 /* ================= RENDER HELPERS ================= */
+function renderAll() {
+  // If you want a tabs highlight, keep it here or remove if not needed.
+  // document.querySelectorAll('.tab').forEach(t =>
+  //   t.classList.toggle('active', t.dataset.market === state.market)
+  // );
+  renderHeader();
+  renderOddsTable();
+  renderSnippets();
+}
 function getList(){ return REMOTE_GAMES.length ? REMOTE_GAMES : MOCK_GAMES; }
 function getCurrentGame(){ return getList().find(x=>x.id===state.gameId) || getList()[0]; }
 
@@ -418,4 +427,5 @@ function wire(){
 </script>
 </body>
 </html>
+
 
