@@ -6,13 +6,8 @@
   <title>Bet Buzz — Week 1 (Live)</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --card: #121931;
-      --text: #e8eefc;
-      --muted: #a8b3cf;
-      --accent: #7cc4ff;
-      --border: #233058;
-      --elev: 0 10px 30px rgba(0,0,0,.2);
+      --bg:#0b1020; --card:#121931; --text:#e8eefc; --muted:#a8b3cf;
+      --accent:#7cc4ff; --border:#233058; --elev:0 10px 30px rgba(0,0,0,.2);
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto}
@@ -73,11 +68,11 @@
     <div class="kpi">
       <div class="label">Consensus Edge (model)</div>
       <div class="val" id="edgeText">—</div>
-      <div class="muted" id="edgeNote" style="font-size:12px;margin-top:6px">Based on naive power rating vs market.</div>
+      <div class="muted" id="edgeNote" style="font-size:12px;margin-top:6px">Compare to your model once added.</div>
     </div>
     <div class="kpi" style="margin-top:12px">
       <div class="label">Public % (tickets / handle)</div>
-      <div class="val" id="publicPct">—</div>
+      <div class="val" id="publicPct">50% tix / 50% $ on HOME</div>
       <div class="muted" style="font-size:12px;margin-top:6px">Mocked until you add a splits provider.</div>
     </div>
     <div class="kpi" style="margin-top:12px">
@@ -158,30 +153,27 @@ function bestLineML(lines, side){
 
 /* ================= STATE ================= */
 let state = { market:'spread', gameId:null, side:null };
-let REMOTE_GAMES = [];
-let CURRENT_ODDS = null;
-
-  let ALL_EVENTS = [];           // [{id, home, away, commence_time, odds:{...}}]
-let ODDS_BY_ID = Object.create(null);
-
+let REMOTE_GAMES = [];                // built from /api/odds-all
+let CURRENT_ODDS = null;              // odds object for selected game
+let ALL_EVENTS = [];                  // raw events from /api/odds-all
+let ODDS_BY_ID = Object.create(null); // { eventId: odds }
 
 /* ================= MOCKS (fallback only) ================= */
 const MOCK_GAMES = [
-  { id:'osu-tex', kickoff:'2025-08-30T16:00:00Z', home:'Ohio State', away:'Texas', home_rank:3, away_rank:1, venue:'Ohio Stadium' },
-  { id:'clem-lsu', kickoff:'2025-08-30T23:30:00Z', home:'Clemson', away:'LSU', home_rank:4, away_rank:9, venue:'Memorial Stadium' }
+  { id:'osu-tex', kickoff:'2025-08-30T16:00:00Z', home:'Ohio State', away:'Texas', home_rank:3, away_rank:1, venue:'Ohio Stadium' }
 ];
 const MOCK_ODDS = {
   'osu-tex': {
-    spread:{ side:'home', lines:[ {book:'FD',home:-2.5,away:+2.5,price_home:-110,price_away:-110}, {book:'DK',home:-2.0,away:+2.0,price_home:-115,price_away:-105} ] },
-    moneyline:{ side:'home', lines:[ {book:'FD',home:-126,away:+105}, {book:'DK',home:-130,away:+108} ] },
-    total:{ target:47.5, lines:[ {book:'FD',over:47.5,under:47.5,price_over:-110,price_under:-110} ] },
-    public:{ spread:{tickets_home:53,handle_home:58}, ml:{tickets_home:51,handle_home:55}, total:{tickets_over:48,handle_over:46} },
-    sentiment:{ score:+0.18, snippets:[ {src:'Reddit r/CFB', text:'OSU front seven vs Texas OL is the real mismatch.', score:+0.4} ] }
+    spread:{ side:'home', lines:[ {book:'DRAFTKINGS',home:-2.5,away:+2.5,price_home:-110,price_away:-110} ] },
+    moneyline:{ side:'home', lines:[ {book:'DRAFTKINGS',home:-126,away:+105} ] },
+    total:{ target:47.5, lines:[ {book:'DRAFTKINGS',over:47.5,under:47.5,price_over:-110,price_under:-110} ] },
+    public:{ spread:{tickets_home:50,handle_home:50}, ml:{tickets_home:50,handle_home:50}, total:{tickets_over:50,handle_over:50} },
+    sentiment:{ score:0, snippets:[] }
   }
 };
 
 /* ================= API CALLS ================= */
-// NEW: fetch all events with odds in one call
+// Pull ALL events with odds in one call
 async function fetchAllOddsEvents(){
   const r = await fetch(`${API_BASE}/api/odds-all`);
   if(!r.ok) throw new Error('odds-all failed');
@@ -189,6 +181,7 @@ async function fetchAllOddsEvents(){
   return events;
 }
 
+// Optional: chatter per selection
 async function fetchChatterFor(game){
   const q = `${game.away} ${game.home} spread odds`;
   const r = await fetch(`${API_BASE}/api/chatter?q=${encodeURIComponent(q)}`);
@@ -197,29 +190,21 @@ async function fetchChatterFor(game){
 }
 
 /* ================= RENDER HELPERS ================= */
-function renderAll() {
-  // If you want a tabs highlight, keep it here or remove if not needed.
-  // document.querySelectorAll('.tab').forEach(t =>
-  //   t.classList.toggle('active', t.dataset.market === state.market)
-  // );
-  renderHeader();
-  renderOddsTable();
-  renderSnippets();
+function renderAll(){ renderHeader(); renderOddsTable(); renderSnippets(); }
+
+function getCurrentGame(){
+  const list = REMOTE_GAMES.length ? REMOTE_GAMES : MOCK_GAMES;
+  return list.find(x=>x.id===state.gameId) || list[0];
 }
-function getList(){ return REMOTE_GAMES.length ? REMOTE_GAMES : MOCK_GAMES; }
-function getCurrentGame(){ return getList().find(x=>x.id===state.gameId) || getList()[0]; }
 
 function renderGameOptions(){
   const sel = $('#gameSelect');
-  const list = getList();
-  sel.innerHTML = list.map(g=>{
-    const tagH = g.home_rank? ` (#${g.home_rank})`:'';
-    const tagA = g.away_rank? ` (#${g.away_rank})`:'';
-    return `<option value="${g.id}">${g.away}${tagA} @ ${g.home}${tagH}</option>`;
-  }).join('');
+  const list = REMOTE_GAMES.length ? REMOTE_GAMES : MOCK_GAMES;
+  sel.innerHTML = list.map(g => `<option value="${g.id}">${g.away} @ ${g.home}</option>`).join('');
   if(!state.gameId && list[0]) state.gameId = list[0].id;
   sel.value = state.gameId;
 }
+
 function rowHeader(cols){ return `<div class="oddsRow muted">${cols.map(c=>`<div>${c}</div>`).join('')}</div>`; }
 function oddsRow(book,c1,c2,c3){ return `<div class="oddsRow"><div><b>${book}</b></div><div>${c1}</div><div>${c2}</div><div class="muted">${c3}</div></div>`; }
 
@@ -236,8 +221,8 @@ function renderHeader(){
   $('#matchHeader').innerHTML = `
     <div class="row" style="justify-content:space-between">
       <div class="team">
-        <div class="muted">${new Date(g.kickoff || g.kick || Date.now()).toLocaleString()}</div>
-        <div class="big">${g.away}${g.away_rank? ` (#${g.away_rank})`:''} @ ${g.home}${g.home_rank? ` (#${g.home_rank})`:''}</div>
+        <div class="muted">${new Date(g.kickoff || Date.now()).toLocaleString()}</div>
+        <div class="big">${g.away} @ ${g.home}</div>
         <div class="muted">${g.venue || ''}</div>
       </div>
       <div class="row">
@@ -247,34 +232,24 @@ function renderHeader(){
       </div>
     </div>`;
 
-  // edge (simple)
-  let edgeTxt='—', edgeNote='—';
+  // Edge (simple placeholders)
   if(m==='moneyline' && (odds.moneyline?.lines?.length)){
     const best = bestLineML(odds.moneyline.lines, side);
-    const price = side==='home' ? best.home : best.away;
-    const modelProbHome = 0.55; // placeholder until you add a real model
-    const modelProb = side==='home' ? modelProbHome : (1-modelProbHome);
+    const price = side==='home'? best.home : best.away;
+    const modelProbHome = 0.55; // placeholder
+    const modelProb = side==='home'? modelProbHome : (1-modelProbHome);
     const implied = moneylineToImplied(price);
-    edgeTxt = quickEV(modelProb, implied);
-    edgeNote = `Model win ${formatPct(modelProb)} vs implied ${formatPct(implied)} @ ${best.book} ${fmtPrice(price)}.`;
+    $('#edgeText').textContent = quickEV(modelProb, implied);
+    $('#edgeNote').textContent = `Model win ${formatPct(modelProb)} vs implied ${formatPct(implied)} @ ${best.book} ${fmtPrice(price)}.`;
   } else if(m==='spread'){
     const avg = averageSpreadNumber(odds.spread.lines||[]);
-    edgeTxt = (avg>=0?'+':'')+avg.toFixed(1)+' pts (market avg)';
-    edgeNote = 'Compare to your model once added.';
+    $('#edgeText').textContent = (avg>=0?'+':'')+avg.toFixed(1)+' pts (market avg)';
+    $('#edgeNote').textContent = 'Compare to your model once added.';
   } else {
     const tgt = odds.total?.target;
-    edgeTxt = (tgt!=null? tgt.toFixed(1) : '—');
-    edgeNote = 'Consensus total';
+    $('#edgeText').textContent = (tgt!=null? tgt.toFixed(1) : '—');
+    $('#edgeNote').textContent = 'Consensus total';
   }
-  $('#edgeText').textContent = edgeTxt;
-  $('#edgeNote').textContent = edgeNote;
-
-  // public (still mocked)
-  const pub = odds.public || { spread:{tickets_home:50,handle_home:50}, ml:{tickets_home:50,handle_home:50}, total:{tickets_over:50,handle_over:50} };
-  $('#publicPct').textContent =
-    m==='spread'    ? `${pub.spread.tickets_home}% tix / ${pub.spread.handle_home}% $ on HOME`
-  : m==='moneyline' ? `${pub.ml.tickets_home}% tix / ${pub.ml.handle_home}% $ on HOME`
-                    : `${pub.total.tickets_over}% tix / ${pub.total.handle_over}% $ on OVER`;
 
   // KPIs
   if(m==='moneyline' && odds.moneyline?.lines?.length){
@@ -343,75 +318,57 @@ function renderSnippets(){
     </div>`).join('') || '<div class="muted">No recent chatter found.</div>';
 }
 
-/* ================= LIVE LOADERS ================= */
-async function loadLiveForCurrentGame(){
-  const g = getCurrentGame();
-  try{
-    const [odds, chatter] = await Promise.all([
-      fetchOddsFor(g).catch(()=>null),
-      fetchChatterFor(g).catch(()=>({score:0,snippets:[]}))
-    ]);
-    if(odds){
-      CURRENT_ODDS = {
-        spread: odds.spread,
-        moneyline: odds.moneyline,
-        total: odds.total,
-        public: { spread:{tickets_home:50,handle_home:50}, ml:{tickets_home:50,handle_home:50}, total:{tickets_over:50,handle_over:50} },
-        sentiment: { score: chatter.score||0, snippets: chatter.snippets||[] }
-      };
-      $('#modeTag').textContent = 'Live';
-    } else {
-      CURRENT_ODDS = null; $('#modeTag').textContent = 'Mock';
-    }
-  } catch(e){
-    console.error(e); CURRENT_ODDS = null; $('#modeTag').textContent = 'Mock';
-  }
-  renderAll();
-}
-
+/* ================= LIVE FLOW ================= */
 async function initLive(){
-  // show mocks immediately so UI is usable
+  // show mock immediately (so UI is never empty)
   if(!state.gameId) state.gameId = (MOCK_GAMES[0]?.id);
   renderGameOptions();
+  CURRENT_ODDS = MOCK_ODDS[state.gameId] || null;
   renderAll();
 
+  // try live: load ALL events with odds
   try{
-    // pull ALL odds once
     ALL_EVENTS = await fetchAllOddsEvents();
     if(ALL_EVENTS && ALL_EVENTS.length){
-      // build a quick lookup
-      ODDS_BY_ID = Object.fromEntries(
-        ALL_EVENTS.map(ev => [ev.id, ev.odds])
-      );
-      // build the dropdown from the odds feed (source of truth)
+      ODDS_BY_ID = Object.fromEntries(ALL_EVENTS.map(ev => [ev.id, ev.odds]));
       REMOTE_GAMES = ALL_EVENTS.map(ev => ({
-        id: ev.id,
-        kickoff: ev.commence_time,
-        home: ev.home,
-        away: ev.away,
-        venue: ''
+        id: ev.id, kickoff: ev.commence_time, home: ev.home, away: ev.away, venue: ''
       }));
+
       state.gameId = REMOTE_GAMES[0].id;
-      renderGameOptions();
-      // set CURRENT_ODDS for the first game and render
       CURRENT_ODDS = ODDS_BY_ID[state.gameId] || null;
       $('#modeTag').textContent = 'Live';
+      renderGameOptions();
       renderAll();
       return;
     }
-  }catch(e){
+  } catch(e){
     console.warn('odds-all failed; using mocks', e);
+    $('#modeTag').textContent = 'Mock';
   }
-  $('#modeTag').textContent = 'Mock';
 }
 
 /* ================= EVENTS ================= */
 function wire(){
+  // game selection -> swap odds from preloaded map + fetch chatter
   $('#gameSelect').addEventListener('change', async (e)=>{
     state.gameId = e.target.value;
     state.side = null;
-    await loadLiveForCurrentGame();
+    CURRENT_ODDS = ODDS_BY_ID[state.gameId] || null;
+    renderAll();
+
+    // optional chatter for this matchup
+    try{
+      const g = getCurrentGame();
+      const ch = await fetchChatterFor(g).catch(()=>({score:0,snippets:[]}));
+      if(CURRENT_ODDS){
+        CURRENT_ODDS.sentiment = { score: ch.score||0, snippets: ch.snippets||[] };
+        renderSnippets();
+      }
+    }catch(_e){}
   });
+
+  // tabs
   $$('.tab').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       $$('.tab').forEach(b=>b.classList.remove('active'));
@@ -421,6 +378,8 @@ function wire(){
       renderAll();
     });
   });
+
+  // side flip
   $('#flipSide').addEventListener('click', ()=>{
     if(state.market==='total') return;
     const cur = state.side || 'home';
@@ -428,17 +387,29 @@ function wire(){
     $('#sideLabel').textContent = state.side.toUpperCase();
     renderHeader(); renderOddsTable();
   });
-  $('#refresh').addEventListener('click', loadLiveForCurrentGame);
+
+  // refresh (re-pull all events)
+  $('#refresh').addEventListener('click', async ()=>{
+    try{
+      ALL_EVENTS = await fetchAllOddsEvents();
+      ODDS_BY_ID = Object.fromEntries(ALL_EVENTS.map(ev => [ev.id, ev.odds]));
+      // keep current selection if still present
+      if(!ODDS_BY_ID[state.gameId] && ALL_EVENTS[0]){
+        state.gameId = ALL_EVENTS[0].id;
+      }
+      CURRENT_ODDS = ODDS_BY_ID[state.gameId] || null;
+      renderGameOptions();
+      renderAll();
+    }catch(e){ console.warn('refresh failed', e); }
+  });
 }
 
 /* ================= BOOT ================= */
-(function boot(){
-  wire();
-  initLive();
-})();
+(function boot(){ wire(); initLive(); })();
 </script>
 </body>
 </html>
+
 
 
 
